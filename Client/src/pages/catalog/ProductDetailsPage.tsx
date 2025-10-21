@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { IProduct } from "../../model/IProduct";
 import requests from "../../api/requests";
+import NotFound from "../../errors/NotFound";
 
 export default function ProductDetailsPage(){
 
@@ -13,12 +14,11 @@ export default function ProductDetailsPage(){
     useEffect(() => {
         id && requests.Catalog.details(parseInt(id))
         .then(data => setProduct(data))
-        .catch(error => console.log(error))
         .finally(()=> setLoading(false))
     }, [id]);
 
     if(loading) return <CircularProgress></CircularProgress>
-    if(!product) return <h3>Product Not Found...</h3>
+    if(!product) return <NotFound/>
     return (
         <Grid container spacing={6}>
             <Grid size={{lg:4, md:5, sm:6, xs:12}}>

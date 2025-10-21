@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 
-export default function AboutPage() {
+export default function ContactPage() {
     return (
-        <Typography variant="h2">About Page</Typography>
+        <Typography variant="h2">Contact Page</Typography>
     )
 }

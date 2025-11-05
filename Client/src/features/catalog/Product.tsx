@@ -3,12 +3,10 @@ import { LoadingButton } from "@mui/lab"
 import { IProduct } from "../../model/IProduct"
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from "react-router";
-import { useState } from "react";
-import requests from "../../api/requests";
 import { AddShoppingCart } from "@mui/icons-material";
-import { useCartContext } from "../../context/CartContext";
-import { toast } from "react-toastify";
 import { currencyTRY } from "../../utils/formatCurrency";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { addItemToCart } from "../cart/cartSlice";
 
 interface Props {
     product: IProduct
@@ -16,19 +14,8 @@ interface Props {
 
 export default function Product({product} : Props){
 
-  const [loading, setLoading] = useState(false);
-  const { setCart } = useCartContext();
-  
-  function handleAddItem(productId:number){
-    setLoading(true);
-    requests.Cart.addItem(productId)
-      .then(cart => {
-                      setCart(cart);
-                      toast.success(`Sepetinize 1 ${product?.name} daha eklendi.`)
-                  })
-      .catch(error => console.log(error))
-      .finally(()=>setLoading(false));
-  }
+  const dispatch = useAppDispatch();
+  const { status } = useAppSelector(state => state.cart)
 
   return(
     <Card>
@@ -42,8 +29,7 @@ export default function Product({product} : Props){
         </Typography>
       </CardContent>
       <CardActions>
-        {/* <Button variant="outlined" size="small" startIcon={<AddShoppingCart/>} color="success" onClick={()=>handleAddItem(product.id)}>Add to Card</Button> */}
-        <LoadingButton variant="outlined" loadingPosition="start" startIcon={<AddShoppingCart/>} loading={loading} onClick={()=>handleAddItem(product.id)}>Sepete Ekle</LoadingButton>
+        <LoadingButton variant="outlined" loadingPosition="start" startIcon={<AddShoppingCart/>} loading={status === "pendingAddItem"+product.id} onClick={()=>dispatch(addItemToCart({productId: product.id}))}>Sepete Ekle</LoadingButton>
 
         <Button component={Link} to={`/catalog/${product.id}`} size="small" startIcon={<SearchIcon/>} color="primary">View</Button>
       </CardActions>

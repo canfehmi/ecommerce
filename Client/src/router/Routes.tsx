@@ -1,30 +1,30 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import App from "../components/App";
-import HomePage from "../pages/HomePage";
-import ContactPage from "../pages/AboutPage";
-import AboutPage from "../pages/ContactPage";
-import CatalogPage from "../pages/catalog/CatalogPage";
-import ProductDetailsPage from "../pages/catalog/ProductDetailsPage";
-import ErrorPage from "../pages/ErrorPage";
+import HomePage from "../features/HomePage";
+import ContactPage from "../features/AboutPage";
+import AboutPage from "../features/ContactPage";
+import CatalogPage from "../features/catalog/CatalogPage";
+import ProductDetailsPage from "../features/catalog/ProductDetailsPage";
+import ErrorPage from "../features/ErrorPage";
 import ServerError from "../errors/ServerError";
 import NotFound from "../errors/NotFound";
-import ShoppingCartPage from "../pages/cart/ShoppingCartPage";
+import ShoppingCartPage from "../features/cart/ShoppingCartPage";
 
-export const router =createBrowserRouter([
-    {
-        path: "/",
-        element: <App />,
-        children: [
-            {path:"", element: <HomePage />},
-            {path:"about", element: <AboutPage />},
-            {path:"contact", element: <ContactPage />},
-            {path:"catalog", element: <CatalogPage />},
-            {path:"cart", element: <ShoppingCartPage />},
-            {path:"catalog/:id", element: <ProductDetailsPage />},
-            {path:"error", element: <ErrorPage />},
-            {path:"server-error", element: <ServerError />},
-            {path:"not-found", element: <NotFound />},
-            {path:"*", element: <Navigate to={"/not-found"} />}
-        ]
-    }
-])
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      { path: "", element: <HomePage /> },
+      { path: "about", element: <AboutPage /> },
+      { path: "contact", element: <ContactPage /> },
+      { path: "catalog", element: <CatalogPage /> },
+      { path: "cart", element: <ShoppingCartPage /> },
+      { path: "catalog/:id", element: <ProductDetailsPage /> },
+      { path: "error", element: <ErrorPage /> },
+      { path: "server-error", element: <ServerError /> },
+      { path: "not-found", element: <NotFound /> },
+      { path: "*", element: <Navigate to={"/not-found"} /> },
+    ],
+  },
+]);

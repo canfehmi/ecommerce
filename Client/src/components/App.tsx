@@ -1,22 +1,25 @@
-import Header from "./Header";
+import { useEffect, useState } from "react";
 import { CircularProgress, Container, CssBaseline } from "@mui/material";
 import { Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/ReactToastify.css";
-import { useEffect, useState } from "react";
-import requests from "../api/requests";
-import { useAppDispatch } from "../hooks/hooks";
-import { setCart } from "../features/cart/cartSlice";
+import "react-toastify/dist/ReactToastify.css";
+import { useAppDispatch } from "../store/store";
+import { getCart } from "../features/cart/cartSlice";
+import Header from "./Header";
+import { getUser } from "../features/account/accountSlice";
 
 function App() {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
 
+  const initApp = async () => {
+    await dispatch(getUser());
+
+    await dispatch(getCart());
+  };
+
   useEffect(() => {
-    requests.Cart.get()
-      .then((cart) => dispatch(setCart(cart)))
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
+    initApp().then(() => setLoading(false));
   }, []);
 
   if (loading) return <CircularProgress />;

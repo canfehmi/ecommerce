@@ -21,12 +21,12 @@ public class CartController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<CartDto>> GetCart()
     {
-        return CartToDto(await GetOrCreate());
+        return CartToDto(await GetOrCreate(GetCustomerId()));
     }
     [HttpPost]
     public async Task<ActionResult> AddItemToCart(int productId, int quantity)
     {
-        var cart = await GetOrCreate();
+        var cart = await GetOrCreate(GetCustomerId());
         var product = await _context.Products.FirstOrDefaultAsync(i => i.Id == productId);
         if (product == null) return NotFound("Ürün bulunamadı.");
         cart.AddItem(product, quantity);
@@ -38,29 +38,40 @@ public class CartController : ControllerBase
     [HttpDelete]
     public async Task<ActionResult> DeleteItemFromCart(int productId, int quantity)
     {
-        var cart = await GetOrCreate();
+        var cart = await GetOrCreate(GetCustomerId());
         cart.DeleteItem(productId, quantity);
         var result = await _context.SaveChangesAsync() > 0;
         if (result) return CreatedAtAction(nameof(GetCart), CartToDto(cart));
         return BadRequest(new ProblemDetails { Title = "Ürün silinirken bir hata oluştu." });
     }
 
-    private async Task<Cart> GetOrCreate()
+    private string GetCustomerId()
+    {
+        return User.Identity?.Name ?? Request.Cookies["customerId"]!;
+    }
+
+    //GetOrCreate Metodu; hem bu controller içerisinde, hem de AccountController içerisinde yazılmıştır.
+    //Her ne kadar DRY (Don't Repeat Yourself) ihlal etmiş olsam da bu projedeki ana amacım React kısmını geliştirmektir.
+    private async Task<Cart> GetOrCreate(string customerid)
     {
         var cart = await _context.Carts
             .Include(u => u.CartItems)
             .ThenInclude(t => t.Product)
-            .Where(w => w.CustomerId == Request.Cookies["customerId"])
+            .Where(w => w.CustomerId == customerid)
             .FirstOrDefaultAsync();
         if (cart == null)
         {
-            var customerId = Guid.NewGuid().ToString();
-            var cookieOptions = new CookieOptions
+            var customerId = User.Identity?.Name;
+            if (string.IsNullOrEmpty(customerId))
             {
-                Expires = DateTime.Now.AddMonths(1),
-                IsEssential = true
-            };
-            Response.Cookies.Append("customerId", customerId, cookieOptions);
+                customerId = Guid.NewGuid().ToString();
+                var cookieOptions = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddMonths(1),
+                    IsEssential = true
+                };
+                Response.Cookies.Append("customerId", customerId, cookieOptions);
+            }
             cart = new Cart
             {
                 CustomerId = customerId

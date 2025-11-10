@@ -13,8 +13,8 @@ import { AddCircle, Delete, RemoveCircle } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import CartSummary from "./CartSummary";
 import { currencyTRY } from "../../utils/formatCurrency";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { addItemToCart, deleteItemFromCart } from "./cartSlice";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 
 export default function ShoppingCartPage() {
   const { cart, status } = useAppSelector((state) => state.cart);

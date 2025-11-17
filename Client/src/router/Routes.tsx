@@ -11,6 +11,9 @@ import NotFound from "../errors/NotFound";
 import ShoppingCartPage from "../features/cart/ShoppingCartPage";
 import LoginPage from "../features/account/LoginPage";
 import RegisterPage from "../features/account/RegisterPage";
+import CheckOutPage from "../features/checkout/CheckOutPage";
+import AuthGuard from "./AuthGuard";
+import OrderList from "../features/orders/OrderList";
 
 export const router = createBrowserRouter([
   {
@@ -24,7 +27,18 @@ export const router = createBrowserRouter([
       { path: "cart", element: <ShoppingCartPage /> },
       { path: "catalog/:id", element: <ProductDetailsPage /> },
       { path: "login", element: <LoginPage /> },
+
+      //Login Zorunlu Sayfalar
       { path: "register", element: <RegisterPage /> },
+      {
+        element: <AuthGuard />,
+        children: [
+          { path: "checkout", element: <CheckOutPage /> },
+          { path: "order", element: <OrderList /> },
+        ],
+      },
+
+      //Hata Sayfaları
       { path: "error", element: <ErrorPage /> },
       { path: "server-error", element: <ServerError /> },
       { path: "not-found", element: <NotFound /> },

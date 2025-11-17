@@ -1,18 +1,21 @@
-import { ShoppingCart } from "@mui/icons-material";
+import { KeyboardArrowDown, ShoppingCart } from "@mui/icons-material";
 import {
   AppBar,
   Badge,
   Box,
   Button,
+  Container,
   IconButton,
+  Menu,
+  MenuItem,
   Stack,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import { Link, NavLink } from "react-router";
 import { logout } from "../features/account/accountSlice";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { clearCart } from "../features/cart/cartSlice";
+import React, { useState } from "react";
 
 const links = [
   { title: "Home", to: "/" },
@@ -43,6 +46,17 @@ export default function Header() {
   const { user } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  function handleMenuClick(event: React.MouseEvent<HTMLButtonElement>) {
+    setAnchorEl(event.currentTarget);
+  }
+
+  function handleClose() {
+    setAnchorEl(null);
+  }
+
   const cartCount = cart?.cartItems.reduce(
     (total, item) => total + item.quantity,
     0
@@ -50,67 +64,88 @@ export default function Header() {
 
   return (
     <AppBar position="static" sx={{ mb: 4 }}>
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="h4">E-Ticaret</Typography>
-          <Stack direction="row">
-            {links.map((link) => (
-              <Button
-                key={link.to}
-                component={NavLink}
-                to={link.to}
-                sx={navStyles}
-              >
-                {link.title}
-              </Button>
-            ))}
-          </Stack>
-        </Box>
-
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <IconButton
-            component={Link}
-            to="/cart"
-            size="large"
-            edge="start"
-            color="inherit"
-          >
-            <Badge badgeContent={cartCount} color="secondary">
-              <ShoppingCart></ShoppingCart>
-            </Badge>
-          </IconButton>
-
-          {user ? (
+      <Container maxWidth="lg">
+        <Toolbar
+          disableGutters
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <Stack direction="row">
-              <Button sx={navStyles}>{user.name}</Button>
-              <Button
-                sx={navStyles}
-                onClick={() => {
-                  dispatch(logout());
-                  dispatch(clearCart());
-                }}
-              >
-                Çıkış Yap
-              </Button>
+              {links.map((link) => (
+                <Button
+                  key={link.to}
+                  component={NavLink}
+                  to={link.to}
+                  sx={navStyles}
+                >
+                  {link.title}
+                </Button>
+              ))}
             </Stack>
-          ) : (
-            <>
+          </Box>
+
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton
+              component={Link}
+              to="/cart"
+              size="large"
+              edge="start"
+              color="inherit"
+            >
+              <Badge badgeContent={cartCount} color="secondary">
+                <ShoppingCart></ShoppingCart>
+              </Badge>
+            </IconButton>
+
+            {user ? (
               <Stack direction="row">
-                {authLinks.map((link) => (
-                  <Button
-                    key={link.to}
-                    component={NavLink}
-                    to={link.to}
-                    sx={navStyles}
+                <Button
+                  id="user-button"
+                  onClick={handleMenuClick}
+                  endIcon={<KeyboardArrowDown />}
+                  sx={navStyles}
+                >
+                  {user.name}
+                </Button>
+
+                <Menu
+                  id="user-menu"
+                  open={open}
+                  onClose={handleClose}
+                  anchorEl={anchorEl}
+                >
+                  <MenuItem component={Link} to="/order">
+                    Siparişlerim
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      dispatch(logout());
+                      dispatch(clearCart());
+                    }}
                   >
-                    {link.title}
-                  </Button>
-                ))}
+                    logout
+                  </MenuItem>
+                </Menu>
               </Stack>
-            </>
-          )}
-        </Box>
-      </Toolbar>
+            ) : (
+              <>
+                <Stack direction="row">
+                  {authLinks.map((link) => (
+                    <Button
+                      key={link.to}
+                      component={NavLink}
+                      to={link.to}
+                      sx={navStyles}
+                    >
+                      {link.title}
+                    </Button>
+                  ))}
+                </Stack>
+              </>
+            )}
+          </Box>
+        </Toolbar>
+      </Container>
     </AppBar>
   );
 }

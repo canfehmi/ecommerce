@@ -48,13 +48,13 @@ export default function Review() {
             Ödeme Bilgileri
           </Typography>
           <Typography sx={{ color: "text.secondary" }} gutterBottom>
-            {getValues("card_name")}
+            {getValues("cardname")}
           </Typography>
           <Typography sx={{ color: "text.secondary" }} gutterBottom>
-            {getValues("card_number")}
+            {getValues("cardnumber")}
           </Typography>
           <Typography sx={{ color: "text.secondary" }} gutterBottom>
-            {getValues("card_expiry_date")}
+            {getValues("cardexpirymonth")}/{getValues("cardexpiryyear")}
           </Typography>
         </div>
       </Stack>

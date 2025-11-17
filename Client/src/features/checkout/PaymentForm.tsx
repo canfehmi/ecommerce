@@ -10,7 +10,7 @@ export default function PaymentForm() {
     <Grid container spacing={3}>
       <Grid size={{ xs: 12, md: 6 }}>
         <TextField
-          {...register("card_name", {
+          {...register("cardname", {
             required: "Bu alan boş bırakılamaz.",
           })}
           label="Kart üzerindeki adı Girin"
@@ -18,46 +18,58 @@ export default function PaymentForm() {
           autoFocus
           size="small"
           sx={{ mb: 2 }}
-          error={!!errors.card_name}
+          error={!!errors.cardname}
         ></TextField>
       </Grid>
 
       <Grid size={{ xs: 12, md: 6 }}>
         <TextField
-          {...register("card_number", {
+          {...register("cardnumber", {
             required: "Kart numarası boş bırakılamaz.",
           })}
           label="Kart Numaranızı Girin"
           fullWidth
           size="small"
           sx={{ mb: 2 }}
-          error={!!errors.card_number}
+          error={!!errors.cardnumber}
         ></TextField>
       </Grid>
 
-      <Grid size={{ xs: 12, md: 6 }}>
+      <Grid size={{ xs: 6, md: 4 }}>
         <TextField
-          {...register("card_expiry_date", {
-            required: "Kartın SKT alanı bırakılamaz.",
+          {...register("cardexpirymonth", {
+            required: "Kartın son kullanma ayı alanı bırakılamaz.",
           })}
-          label="Kartın son kullanma tarihini Girin"
+          label="Kartın son kullanma ayını Girin"
           fullWidth
           size="small"
           sx={{ mb: 2 }}
-          error={!!errors.card_expiry_date}
+          error={!!errors.cardexpirymonth}
+        ></TextField>
+      </Grid>
+      <Grid size={{ xs: 6, md: 4 }}>
+        <TextField
+          {...register("cardexpiryyear", {
+            required: "Kartın son kullanma yılı alanı bırakılamaz.",
+          })}
+          label="Kartın son kullanma yılını Girin"
+          fullWidth
+          size="small"
+          sx={{ mb: 2 }}
+          error={!!errors.cardexpiryyear}
         ></TextField>
       </Grid>
 
-      <Grid size={{ xs: 12, md: 6 }}>
+      <Grid size={{ xs: 12, md: 4 }}>
         <TextField
-          {...register("card_cvv", {
+          {...register("cardcvv", {
             required: "CVV bırakılamaz.",
           })}
           label="CVV Girin"
           fullWidth
           size="small"
           sx={{ mb: 2 }}
-          error={!!errors.card_cvv}
+          error={!!errors.cardcvv}
         ></TextField>
       </Grid>
     </Grid>

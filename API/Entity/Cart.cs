@@ -32,6 +32,15 @@ public class Cart
             CartItems.Remove(item);
         }
     }
+
+    public double CalculateTotal()
+    {
+        return (double)CartItems.Sum(i => i.Product.Price * i.Quantity);
+    }
+    public double CalculatePaidTotal()
+    {
+        return (double)CartItems.Sum(i => i.Product.Price * i.Quantity) * 1.2;
+    }
 }
 
 public class CartItem

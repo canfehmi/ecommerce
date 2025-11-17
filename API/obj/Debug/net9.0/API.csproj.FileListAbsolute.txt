@@ -165,3 +165,5 @@ C:\Users\FHM\Desktop\ecommerce\API\bin\Debug\net9.0\Microsoft.IdentityModel.Prot
 C:\Users\FHM\Desktop\ecommerce\API\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\FHM\Desktop\ecommerce\API\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\FHM\Desktop\ecommerce\API\bin\Debug\net9.0\Scalar.AspNetCore.dll
+C:\Users\FHM\Desktop\ecommerce\API\bin\Debug\net9.0\Iyzipay.dll
+C:\Users\FHM\Desktop\ecommerce\API\bin\Debug\net9.0\Newtonsoft.Json.dll

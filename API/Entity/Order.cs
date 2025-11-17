@@ -15,6 +15,8 @@ namespace API.Entity
         public DateTime OrderDate { get; set; } = DateTime.Now;
         public List<OrderItem> OrderItems { get; set; } = new();
         public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
+        public string? ConversationId { get; set; }
+        public string? BasketId { get; set; }
     }
 
     public class OrderItem

@@ -100,9 +100,6 @@ public class AccountController : ControllerBase
         };
     }
 
-
-    //GetOrCreate Metodu; hem bu controller içerisinde, hem de CartController içerisinde yazılmıştır.
-    //Her ne kadar DRY (Don't Repeat Yourself) ihlal etmiş olsam da bu projedeki ana amacım React kısmını geliştirmektir.
     private async Task<Cart> GetOrCreate(string customerid)
     {
         var cart = await _context.Carts

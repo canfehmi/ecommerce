@@ -18,10 +18,8 @@ import { clearCart } from "../features/cart/cartSlice";
 import React, { useState } from "react";
 
 const links = [
-  { title: "Home", to: "/" },
-  { title: "About", to: "/about" },
   { title: "Catalog", to: "/catalog" },
-  { title: "Contact", to: "/contact" },
+  { title: "Shopping", to: "/shopping" },
   { title: "Error", to: "/error" },
 ];
 

@@ -14,6 +14,7 @@ import RegisterPage from "../features/account/RegisterPage";
 import CheckOutPage from "../features/checkout/CheckOutPage";
 import AuthGuard from "./AuthGuard";
 import OrderList from "../features/orders/OrderList";
+import ShoppingPage from "../features/dragdrop/ShoppingPage";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
       { path: "cart", element: <ShoppingCartPage /> },
       { path: "catalog/:id", element: <ProductDetailsPage /> },
       { path: "login", element: <LoginPage /> },
+      { path: "shopping", element: <ShoppingPage /> },
 
       //Login Zorunlu Sayfalar
       { path: "register", element: <RegisterPage /> },

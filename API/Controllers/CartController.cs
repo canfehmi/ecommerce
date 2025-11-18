@@ -50,8 +50,6 @@ public class CartController : ControllerBase
         return User.Identity?.Name ?? Request.Cookies["customerId"]!;
     }
 
-    //GetOrCreate Metodu; hem bu controller içerisinde, hem de AccountController içerisinde yazılmıştır.
-    //Her ne kadar DRY (Don't Repeat Yourself) ihlal etmiş olsam da bu projedeki ana amacım React kısmını geliştirmektir.
     private async Task<Cart> GetOrCreate(string customerid)
     {
         var cart = await _context.Carts
